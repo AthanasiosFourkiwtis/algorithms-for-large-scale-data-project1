@@ -65,38 +65,38 @@ for (x, y) in [(1, 2), (42, 137), (1000, 2000)]: # Prepei thewritina na einai pe
         
         print(f"r={r}: observed={observed:.4f}, expected={expected:.4f}")
 print("""── B2β ──────────────────────────────────────────────────────────────────────
-Στο Β2β δεν κάνω πείραμα, αλλά θεωρητική απόδειξη. Η οικογένεια V(2^d)
-ορίζεται με affine μετασχηματισμούς πάνω από το GF(2), οπότε κάθε bit
-της εξόδου είναι γραμμικός συνδυασμός των bit της εισόδου και μιας σταθεράς.
+B2β is not an experiment but a theoretical proof. The family V(2^d)
+is defined through affine transformations over GF(2), so every output
+bit is a linear combination of the input bits and a constant.
 
-Επειδή τα bit της εξόδου είναι ομοιόμορφα και ανεξάρτητα, η πιθανότητα
-τα πρώτα r bit να είναι όλα μηδέν είναι ακριβώς (1/2)^r.
+Since the output bits are uniform and independent, the probability
+that the first r bits are all zero is exactly (1/2)^r.
 
-Έτσι, για δύο διαφορετικά στοιχεία x ≠ y, η πιθανότητα να έχουν και τα δύο
-τα πρώτα r bit ίσα με μηδέν είναι (1/4)^r.
+Hence, for two distinct elements x ≠ y, the probability that both
+have their first r bits equal to zero is (1/4)^r.
 
-Άρα, η οικογένεια V(2^d) ικανοποιεί ακριβώς τις δύο ιδιότητες που χρειάζεται
-ο αλγόριθμος Flajolet-Martin.
+Therefore the family V(2^d) satisfies exactly the two properties the
+Flajolet-Martin algorithm requires.
 
 ── B2γ ──────────────────────────────────────────────────────────────────────
-Η οικογένεια V(2^d) είναι θεωρητικά καλύτερη, γιατί από το Β2β φαίνεται ότι
-ικανοποιεί ακριβώς τις δύο ιδιότητες που χρειάζεται ο αλγόριθμος Flajolet-Martin.
-Άρα, για τη V(2^d) έχουμε σωστές θεωρητικές εγγυήσεις.
+The family V(2^d) is theoretically better, since B2β shows that it
+satisfies exactly the two properties the Flajolet-Martin algorithm requires.
+So V(2^d) comes with proper theoretical guarantees.
 
-Αντίθετα, η H(2^d) δεν ικανοποιεί αυτές τις ιδιότητες ακριβώς, αλλά από το Β2α
-φαίνεται ότι στην πράξη τις προσεγγίζει αρκετά καλά. Επομένως, η H(2^d) είναι
-θεωρητικά πιο αδύναμη, αλλά παραμένει πολύ καλή για πρακτική χρήση.
+By contrast, H(2^d) does not satisfy these properties exactly, but B2α
+shows that in practice it approximates them quite well. H(2^d) is therefore
+theoretically weaker, yet remains very good for practical use.
 
-Το βασικό μειονέκτημα της V(2^d) είναι το κόστος σε χώρο. Για να οριστεί μία
-συνάρτηση της οικογένειας V(2^d), χρειάζονται περίπου d(d+1) bits, ενώ για την
-H(2^d) χρειάζονται περίπου 2d bits.
+The main drawback of V(2^d) is its space cost. Defining one function
+of the family V(2^d) takes roughly d(d+1) bits, whereas one from
+H(2^d) takes roughly 2d bits.
 
-Άρα, όταν το d μεγαλώνει, η V(2^d) γίνεται πολύ πιο ακριβή ως προς τον χώρο.
-Για μικρές τιμές, όπως d = 20, και οι δύο οικογένειες μπορούν να χρησιμοποιηθούν.
-Όμως για μεγαλύτερες τιμές, όπως d = 100, η V(2^d) γίνεται αρκετά βαριά, ενώ
-η H(2^d) παραμένει πιο πρακτική.
+So as d grows, V(2^d) becomes far more expensive in space.
+For small values, such as d = 20, either family is usable.
+But for larger values, such as d = 100, V(2^d) gets quite heavy, while
+H(2^d) stays more practical.
 
-Συμπερασματικά, η V(2^d) είναι καλύτερη από θεωρητικής πλευράς, ενώ η H(2^d)
-είναι πιο πρακτική και πιο οικονομική σε χώρο. Για αυτό, στην πράξη συχνά
-προτιμάται η H(2^d), παρόλο που δεν δίνει ακριβώς τις ίδιες θεωρητικές εγγυήσεις.
+In summary, V(2^d) is better from a theoretical standpoint, while H(2^d)
+is more practical and more space-efficient. That is why in practice H(2^d)
+is often preferred, even though it does not give exactly the same theoretical guarantees.
 """)

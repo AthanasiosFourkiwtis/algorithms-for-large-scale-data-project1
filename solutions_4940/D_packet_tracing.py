@@ -14,10 +14,10 @@ os.makedirs(PLOTS_DIR, exist_ok=True)
 BLOOM_SIZE = 10000
 NUM_MESSAGES = 100000
 NUM_SOURCE_ROUTERS = 10
-p = 1048583   # πρώτος λίγο πάνω από 2^20
+p = 1048583   # a prime slightly above 2^20
 
 
-# ----------------voithitikes synarthseis----------------
+# ----------------helper functions----------------
 
 def split_100bit(x):
     parts = []
@@ -51,13 +51,13 @@ def load_graph(filename):
     return n, adj_out, adj_in
 
 
-# ----------------main prosomoiosh----------------
+# ----------------main simulation----------------
 
 def simulate_and_trace(n, adj_out, adj_in, k_hash):
-    # bloom filters για κάθε router
+    # one Bloom filter per router
     bloom_filters = [bytearray((BLOOM_SIZE + 7) // 8) for _ in range(n + 1)]
 
-    # οι hash functions κάθε router
+    # each router's hash functions
     router_hashes = [[] for _ in range(n + 1)]
     for router in range(1, n + 1):
         for _ in range(k_hash):
@@ -65,7 +65,7 @@ def simulate_and_trace(n, adj_out, adj_in, k_hash):
             b = random.randint(0, p - 1)
             router_hashes[router].append(make_hash(a, b, BLOOM_SIZE))
 
-    # insert στο bloom filter
+    # insert into the Bloom filter
     def bf_add(router, msg):
         for h in router_hashes[router]:
             pos = h(msg)
@@ -73,7 +73,7 @@ def simulate_and_trace(n, adj_out, adj_in, k_hash):
             bit_index = pos & 7
             bloom_filters[router][byte_index] |= (1 << bit_index)
 
-    # lookup στο bloom filter
+    # look up in the Bloom filter
     def bf_check(router, msg):
         for h in router_hashes[router]:
             pos = h(msg)
@@ -104,7 +104,7 @@ def simulate_and_trace(n, adj_out, adj_in, k_hash):
             if not next_nodes:
                 break
 
-            # αποφεύγω κύκλους όσο γίνεται
+            # avoid cycles as much as possible
             choices = [v for v in next_nodes if v not in visited_on_path]
             if not choices:
                 choices = next_nodes
@@ -130,7 +130,7 @@ def simulate_and_trace(n, adj_out, adj_in, k_hash):
             if not bf_check(router, msg):
                 continue
 
-            # αν είναι source router
+            # if it is a source router
             if 1 <= router <= NUM_SOURCE_ROUTERS:
                 claimed_sources.add(router)
             else:
@@ -205,20 +205,20 @@ print("\nPlot saved to", plot_path)
 # ── Part Dβ ───────────────────────────────────────────────────────
 
 print("""
-Ο αριθμός επιτυχούς ιχνηλάτησης εξαρτάται από το μήκος μονοπατιών δηλαδή
-σε κάθε router που διασχίζει ένα μήνυμα, εγγράφεται στο Bloom filter
-του router. Κατά την ανάστροφη ιχνηλάτηση, κάθε router που περιέχει
-false positive που προκαλεί εξάπλωσι του ανιχνευτή
-σε λάθος κατευθύνσεις. Γράφοι με μικρό μέσο μήκος μονοπατιού
-εκθέτουν κάθε μήνυμα σε λιγότερους routers άρα λιγότερα false positives και 
-καλύτερη ιχνηλάτηση.
-Μετά με το πλάτος τοπολογίας οι γράφοι με πολλές διακλαδώσεις δυσκολεύουν
-την ιχνηλάτηση γιατί υπάρχουν πολλά διαφορετικά μονοπάτια
-προς τις πηγές — περισσότεροι routers ελέγχονται κατά την
-ανάστροφη αναζήτηση, αυξάνοντας false positive hits.
-Στην συνέχεια ο αριθμός hash functions (k) έχει βέλτιστο k δηλαδή η θεωρητικά βέλτιστη τιμή είναι k = (N/n)·ln2
-όπου N=10.000 bits και n = μέσος αριθμός μηνυμάτων ανά router.
-Λίγες hash functions άρα υψηλό false positive rate.
-Πολλές hash functions οπότε γεμίζει γρήγορα το φίλτρο και έχει επίσης υψηλό FP
-και η βέλτιστη τιμή την εντοπίζω πειραματικά.
+The successful trace rate depends on the path length: at every router
+a message crosses, the message is recorded in that router's Bloom
+filter. During the reverse trace, any router that yields a
+false positive spreads the search
+in wrong directions. Graphs with a small average path length
+expose each message to fewer routers, hence fewer false positives and
+better tracing.
+Topology width matters next: graphs with many branches make
+tracing harder because there are many different paths
+back to the sources — more routers get checked during the
+reverse search, increasing false positive hits.
+Finally, the number of hash functions (k) has an optimum: the theoretically best value is k = (N/n)·ln2
+where N=10,000 bits and n = the average number of messages per router.
+Too few hash functions means a high false positive rate.
+Too many hash functions fills the filter quickly, which also drives FP up,
+so the best value is found experimentally.
 """)

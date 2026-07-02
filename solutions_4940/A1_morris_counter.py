@@ -167,7 +167,7 @@ n_inserts = 1_000_000
 target_low= 800_000
 target_high = 1_200_000
 
-def run_algo1(n): #Enas Morris counter α=2, 15 bits (C ≤ 32767).
+def run_algo1(n): # A single Morris counter α=2, 15 bits (C ≤ 32767).
     C = 0
     max_C = 32767  # o eswterinos counter ftanei mexri ton arithmo2^15-1=32767 
     for x in range(n):
@@ -181,7 +181,7 @@ def run_algo2(n, alpha): #3 Morris counters, 5-bit o kathenas (C ≤ 31) o max_c
     for y in range(n): 
         for j in range(3):  # gia kathe eisagwgh enhmerwnw kai tous 3 morris counters
             if random.random() < 1.0 / (alpha ** Counters[j]):
-                Counters[j] = min(Counters[j] + 1, max_c) #ayksanw τον Cs[j] κατά 1 alla oxi panw apo to 31
+                Counters[j] = min(Counters[j] + 1, max_c) # increment Cs[j] by 1 but never above 31
     e1 = morris_query(Counters[0], alpha)
     e2 = morris_query(Counters[1], alpha)
     e3 = morris_query(Counters[2], alpha)

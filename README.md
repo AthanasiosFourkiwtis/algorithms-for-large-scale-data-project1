@@ -1,25 +1,25 @@
-# Αλγόριθμοι για Δεδομένα Ευρείας Κλίμακας — Project 1
+# Algorithms for Large-Scale Data — Project 1
 
-Πρώτη εργασία στο μάθημα Αλγόριθμοι για Δεδομένα Ευρείας Κλίμακας (Τμήμα Μηχανικών Η/Υ & Πληροφορικής, Παν. Ιωαννίνων).
+First assignment for the Algorithms for Large-Scale Data course (Department of Computer Science & Engineering, University of Ioannina).
 
-Ο κώδικας υλοποιεί διάφορους streaming αλγορίθμους και τρέχει πειράματα που βγάζουν διαγράμματα στον φάκελο `plots/`.
+The code implements several streaming algorithms and runs experiments that output charts into the `plots/` folder.
 
-## Αρχεία (`solutions_4940/`)
+## Files (`solutions_4940/`)
 
 - `A1_morris_counter.py` — Morris counter
-- `A2_morris_exact.py` — ακριβής υπολογισμός της κατανομής του Morris counter
-- `B1_distinct_counting.py` — μέτρηση μοναδικών στοιχείων (trailing zeros, Trie)
+- `A2_morris_exact.py` — exact computation of the Morris counter's distribution
+- `B1_distinct_counting.py` — distinct-element counting (trailing zeros, Trie)
 - `B2_hash_family.py` — hash family
-- `B3_bjkst.py` — αλγόριθμος BJKST
-- `C1_bloom_intersection.py` — Bloom filters και τομή συνόλων
-- `D_packet_tracing.py` — packet tracing με Bloom filters
-- `run_all.py` — τρέχει όλα τα παραπάνω
-- `graph*.txt` — δεδομένα εισόδου
-- `plots/` — τα διαγράμματα που παράγονται
+- `B3_bjkst.py` — BJKST algorithm
+- `C1_bloom_intersection.py` — Bloom filters and set intersection
+- `D_packet_tracing.py` — packet tracing with Bloom filters
+- `run_all.py` — runs all of the above
+- `graph*.txt` — input data
+- `plots/` — the generated charts
 
-## Εκτέλεση
+## Usage
 
-Χρειάζεται Python 3 και matplotlib:
+Requires Python 3 and matplotlib:
 
 ```bash
 pip install matplotlib
@@ -27,19 +27,19 @@ cd solutions_4940
 python run_all.py
 ```
 
-Για να τρέξεις μόνο μία άσκηση, π.χ.:
+To run a single exercise, e.g.:
 
 ```bash
 python B3_bjkst.py
 ```
 
-Όλα τα scripts έχουν `random.seed(42)`, οπότε βγάζουν τα ίδια αποτελέσματα κάθε φορά.
+Every script sets `random.seed(42)`, so the results are identical on every run.
 
-## Άλλα αρχεία
+## Other files
 
-- `report_final.pdf` — η αναφορά της εργασίας
-- `Φυλλάδιο Ασκήσεων 1.pdf` — η εκφώνηση
+- `report_final.pdf` — the project report
+- `Assignment Sheet 1.pdf` — the assignment handout
 
-## Συγγραφέας
+## Author
 
-Αθανάσιος Φουρκιώτης
+Athanasios Fourkiotis
